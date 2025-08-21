@@ -7,20 +7,21 @@ import {
 import { UserModel } from "../models/user.model";
 import { sanitizeUser } from "../services/user.service";
 import { AUTH_PROVIDERS } from "../constants/auth-providers.constant";
+import { env } from "../../env";
 
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL!,
+      clientID: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      callbackURL: env.GOOGLE_CALLBACK_URL,
       scope: ["profile", "email"],
       passReqToCallback: true,
     },
     async (
       req: Request,
-      accessToken: string,
-      refreshToken: string,
+      __: string,
+      _: string,
       profile,
       done: VerifyCallback,
     ) => {

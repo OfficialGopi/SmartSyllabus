@@ -9,6 +9,7 @@
     "@types/node": "^24.3.0",
     "@types/passport": "^1.0.17",
     "@types/passport-google-oauth20": "^2.0.16",
+    "concurrently": "^9.2.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "typescript": "^5.9.2"
@@ -18,7 +19,9 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "build": "tsc -p .",
+    "dev": "concurrently \"tsc -w -p .\" \"nodemon dist/index.js\""
   },
   "keywords": [],
   "author": "",

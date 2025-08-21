@@ -1,0 +1,12 @@
+enum PAYMENT_PROVIDER {
+  RAZORPAY = "razorpay",
+  STRIPE = "stripe",
+}
+
+const PAYMENT_PROVIDER_ENUM = Object.values(PAYMENT_PROVIDER);
+type TYPE_PAYMENT_PROVIDER =
+  (typeof PAYMENT_PROVIDER)[keyof typeof PAYMENT_PROVIDER];
+
+export type { TYPE_PAYMENT_PROVIDER };
+
+export { PAYMENT_PROVIDER, PAYMENT_PROVIDER_ENUM };

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { AsyncHandler } from "../utils/async-handler.util";
 import { ApiResponse, ApiError } from "../utils/response-handler.util";
 import { SyllabusChunksModel } from "../models/syllabus.model";
+import { uploadBufferToCloudinary } from "../libs/cloudinary.lib";
 import { createEmbedding } from "../services/ai.service";
 import { IUser } from "../types/schemas.type";
 
@@ -36,4 +37,20 @@ export const getSyllabusForChat = AsyncHandler(async (req, res) => {
     .sort({ createdAt: 1 })
     .lean();
   return res.status(200).json(new ApiResponse(200, docs, "Success"));
+});
+
+export const uploadSyllabusPdf = AsyncHandler(async (req, res) => {
+  const user = req.user! as IUser;
+  const { chatId } = req.params as { chatId: string };
+  const file = (req as any).file as Express.Multer.File | undefined;
+  if (!file) throw new ApiError(400, "PDF file is required");
+
+  const uploaded = await uploadBufferToCloudinary(
+    file.buffer,
+    `smartsyllabus/${user._id.toString()}/${chatId}`,
+  );
+
+  return res
+    .status(201)
+    .json(new ApiResponse(201, { pdfUrl: uploaded.url }, "PDF Uploaded"));
 });

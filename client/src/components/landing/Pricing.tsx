@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useStore } from "@/store/useStore";
 
 const plans = [
   {
@@ -30,6 +32,8 @@ const plans = [
 ];
 
 export default function Pricing() {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useStore();
   return (
     <section className="w-full py-28 px-6 md:px-12 lg:px-20 bg-neutral-100 dark:bg-neutral-950">
       <div className="max-w-6xl mx-auto text-center mb-16">
@@ -98,6 +102,13 @@ export default function Pricing() {
                     ? "bg-indigo-600 text-white hover:bg-indigo-700"
                     : "bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 hover:opacity-90"
                 }`}
+                onClick={() => {
+                  if (isAuthenticated) {
+                    navigate("/transactions");
+                  } else {
+                    navigate("/login");
+                  }
+                }}
               >
                 {plan.button}
               </button>

@@ -11,6 +11,7 @@ const Chats = lazy(() => import("@/app/(authenticated)/Chats"));
 const Roadmaps = lazy(() => import("@/app/(authenticated)/Roadmaps"));
 const Progress = lazy(() => import("@/app/(authenticated)/Progress"));
 const Profile = lazy(() => import("@/app/(authenticated)/Profile"));
+const Transactions = lazy(() => import("@/app/(authenticated)/Transactions"));
 
 const Router = () => {
   return (
@@ -22,6 +23,7 @@ const Router = () => {
         <Route path="/roadmaps" element={<Roadmaps />} />
         <Route path="/progress" element={<Progress />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/transactions" element={<Transactions />} />
       </Route>
     </Routes>
   );

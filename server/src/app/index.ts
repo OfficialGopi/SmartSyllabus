@@ -26,12 +26,12 @@ import { router as roadmapRouter } from "./routes/roadmap.route";
 import { router as progressRouter } from "./routes/progress.route";
 import { router as transactionRouter } from "./routes/transaction.route";
 
-app.use("/api/user", userRouter);
-app.use("/api/chat", chatRouter);
-app.use("/api/syllabus", syllabusRouter);
-app.use("/api/roadmap", roadmapRouter);
-app.use("/api/progress", progressRouter);
-app.use("/api/transaction", transactionRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/chat", chatRouter);
+app.use("/api/v1/syllabus", syllabusRouter);
+app.use("/api/v1/roadmap", roadmapRouter);
+app.use("/api/v1/progress", progressRouter);
+app.use("/api/v1/transaction", transactionRouter);
 
 //ERROR MIDDLEWARE
 import { errorMiddleware } from "./middlewares/error.middleware";

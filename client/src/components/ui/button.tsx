@@ -4,11 +4,13 @@ export const Button = ({
   children,
   variant = "primary",
   className = "",
+  onClick,
   ...props
 }: {
   children: React.ReactNode;
   variant?: "primary" | "outline" | "ghost";
   className?: string;
+  onClick?: () => void;
   [key: string]: any;
 }) => {
   const baseStyles =
@@ -24,7 +26,11 @@ export const Button = ({
   };
 
   return (
-    <button className={cn(baseStyles, variants[variant], className)} {...props}>
+    <button
+      className={cn(baseStyles, variants[variant], className)}
+      onClick={onClick}
+      {...props}
+    >
       {children}
     </button>
   );

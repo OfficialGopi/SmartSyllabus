@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import ToggleThemeBtn from "../shared/ToggleThemeBtn";
+import { useNavigate } from "react-router-dom";
 
 // Reusable Button (matches your Hero styles)
 
@@ -10,10 +11,14 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, {
+      passive: true,
+    });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -39,7 +44,7 @@ export default function Navbar() {
       >
         <div className="flex items-center justify-between px-4 md:px-6 lg:px-8 h-16">
           {/* Brand */}
-          <a href="#" className="flex items-center gap-2 cursor-pointer">
+          <a href="#hero" className="flex items-center gap-2 cursor-pointer">
             <img src="/logo.png" alt="Logo" className="w-8 h-8 rounded-md" />{" "}
             <span className="font-space-grotesk text-lg md:text-xl font-semibold text-neutral-900 dark:text-neutral-50">
               SmartSyllabus
@@ -55,33 +60,34 @@ export default function Navbar() {
               Features
             </a>
             <a
-              href="#how"
+              href="#how-it-works"
               className="font-inter text-sm text-neutral-700 dark:text-neutral-300 cursor-pointer hover:opacity-80"
             >
               How it works
             </a>
             <a
-              href="#pricing"
+              href="#benefits"
               className="font-inter text-sm text-neutral-700 dark:text-neutral-300 cursor-pointer hover:opacity-80"
             >
-              Pricing
+              Benefits
             </a>
             <a
-              href="#docs"
+              href="#testimonials"
               className="font-inter text-sm text-neutral-700 dark:text-neutral-300 cursor-pointer hover:opacity-80"
             >
-              Docs
+              Testimonials
             </a>
           </div>
 
           {/* Actions */}
           <div className="hidden md:flex items-center gap-3">
             <ToggleThemeBtn className="p-2 cursor-pointer" />
-            <Button variant="ghost" className="px-3 py-2 text-base">
+            <Button
+              variant="ghost"
+              className="px-3 py-2 text-base"
+              onClick={() => navigate("/login")}
+            >
               Login
-            </Button>
-            <Button variant="primary" className="px-3 py-2 text-base">
-              Start Free
             </Button>
           </div>
 
@@ -136,32 +142,34 @@ export default function Navbar() {
             </a>
             <a
               onClick={() => setOpen(false)}
-              href="#how"
+              href="#how-it-works"
               className="font-inter text-base text-neutral-800 dark:text-neutral-200 cursor-pointer"
             >
               How it works
             </a>
             <a
               onClick={() => setOpen(false)}
-              href="#pricing"
+              href="#testimonials"
               className="font-inter text-base text-neutral-800 dark:text-neutral-200 cursor-pointer"
             >
-              Pricing
+              Testimonials
             </a>
+
             <a
               onClick={() => setOpen(false)}
-              href="#docs"
+              href="#benefits"
               className="font-inter text-base text-neutral-800 dark:text-neutral-200 cursor-pointer"
             >
-              Docs
+              Benefits
             </a>
             <div className="pt-2 flex gap-3">
               <ToggleThemeBtn className="p-2 cursor-pointer" />
-              <Button variant="ghost" className="flex-1 px-2 py-1">
+              <Button
+                variant="ghost"
+                className="flex-1 px-2 py-1"
+                onClick={() => navigate("/login")}
+              >
                 Login
-              </Button>
-              <Button variant="primary" className="flex-1 px-2 py-1">
-                Start Free
               </Button>
             </div>
           </div>

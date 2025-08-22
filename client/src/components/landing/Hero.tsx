@@ -5,7 +5,10 @@ import Badge from "./Badge";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full min-h-screen  flex flex-col justify-center items-center   px-6 md:px-12 lg:px-20 gap-4">
+    <section
+      id="hero"
+      className="relative w-full min-h-screen  flex flex-col justify-center items-center   px-6 md:px-12 lg:px-20 gap-4"
+    >
       {/* Background gradients */}
       <Badge />
       <div>

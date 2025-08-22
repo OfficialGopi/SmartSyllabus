@@ -25,7 +25,7 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="w-full py-28 px-6 md:px-12 lg:px-20 ">
+    <section id="testimonials" className="w-full py-28 px-6 md:px-12 lg:px-20 ">
       <div className="max-w-6xl mx-auto text-center mb-12 ">
         <motion.h2
           initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}

@@ -3,6 +3,7 @@ import { env } from "../../env";
 
 export const openai = new OpenAI({
   apiKey: env.AI_API_KEY,
+  baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
 });
 
 export async function generateEmbeddings(text: string): Promise<number[]> {

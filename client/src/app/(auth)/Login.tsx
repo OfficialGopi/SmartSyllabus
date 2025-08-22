@@ -31,7 +31,12 @@ export default function Login() {
 
         {/* Buttons */}
         <div className="mt-8 space-y-5">
-          <button className="w-full flex items-center justify-center gap-3 py-3 px-6 rounded-xl cursor-pointer font-space-grotesk text-base bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition">
+          <button
+            onClick={() =>
+              window.open("http://localhost:8000/api/v1/user/google", "_self")
+            }
+            className="w-full flex items-center justify-center gap-3 py-3 px-6 rounded-xl cursor-pointer font-space-grotesk text-base bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition"
+          >
             <Chrome className="w-5 h-5 text-red-500" />
             Continue with Google
           </button>

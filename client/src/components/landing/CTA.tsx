@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export default function CTA() {
   return (
-    <section className="relative w-full py-28 px-6 md:px-12 lg:px-20 ">
+    <section className="relative w-full py-28 px-6 md:px-12 lg:px-20 " id="cta">
       {/* Background glow */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-[-20%] left-[10%] w-[600px] h-[600px] bg-indigo-500/20 blur-3xl rounded-full animate-pulse" />

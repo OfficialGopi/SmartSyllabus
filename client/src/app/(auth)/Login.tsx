@@ -1,7 +1,50 @@
+import { authAPI } from "@/services/api";
+import { useStore } from "@/store/useStore";
 import { motion } from "framer-motion";
-import { Github, Chrome } from "lucide-react";
+import { Github, Chrome, Loader2 } from "lucide-react";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const { user, setUser, setLoading, isLoading } = useStore();
+
+  const getMe = async () => {
+    if (user) navigate("/chats");
+    const toastId = toast.loading("Checking authentication status");
+    try {
+      setLoading(true);
+
+      const { data } = await authAPI.getMe();
+      if (data.success) {
+        setUser(data.data);
+
+        navigate("/chats");
+        toast.success("Login successful", {
+          id: toastId,
+        });
+      } else {
+        navigate("/login");
+        toast.error(data.message, {
+          id: toastId,
+        });
+      }
+    } catch (error) {
+      navigate("/login");
+      toast.error("Error checking authentication status", {
+        id: toastId,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getMe();
+  }, [user]);
+  if (isLoading) return <Loader2 className="animate-spin" />;
+
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-950 relative overflow-hidden px-6">
       {/* Background glow */}

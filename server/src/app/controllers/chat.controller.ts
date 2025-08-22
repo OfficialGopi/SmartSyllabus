@@ -1,9 +1,10 @@
 import { AsyncHandler } from "../utils/async-handler.util";
 import { ApiResponse, ApiError } from "../utils/response-handler.util";
 import { ConversationModel } from "../models/conversation.model";
+import { IUser } from "../types/schemas.type";
 
 export const createChat = AsyncHandler(async (req, res) => {
-  const user = req.user!;
+  const user = req.user! as IUser;
   const { title, syllabusType, syllabusText, syllabusPdfLink } = req.body as {
     title: string;
     syllabusType: "TEXT" | "PDF";
@@ -25,7 +26,7 @@ export const createChat = AsyncHandler(async (req, res) => {
 });
 
 export const getChats = AsyncHandler(async (req, res) => {
-  const user = req.user!;
+  const user = req.user! as IUser;
   const chats = await ConversationModel.find({ userId: user._id })
     .sort({ createdAt: -1 })
     .lean();
@@ -33,7 +34,7 @@ export const getChats = AsyncHandler(async (req, res) => {
 });
 
 export const addMessage = AsyncHandler(async (req, res) => {
-  const user = req.user!;
+  const user = req.user! as IUser;
   const { chatId } = req.params as { chatId: string };
   const { role, content } = req.body as { role: string; content: string };
   const chat = await ConversationModel.findOne({

@@ -36,7 +36,7 @@ const login = AsyncHandler(async (req, res) => {
     .cookie(tokenFieldNames.accessToken, tokens.accessToken, cookieOptions)
     .cookie(tokenFieldNames.refreshToken, tokens.refreshToken, cookieOptions);
 
-  res.redirect(`${env.CLIENT_URL}/dashboard`);
+  res.redirect(`${env.CLIENT_URL}/login`);
 });
 
 const logout = AsyncHandler(async (req, res) => {

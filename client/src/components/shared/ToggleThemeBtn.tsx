@@ -3,7 +3,7 @@ import { Moon, Sun } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/util/cn";
 
-const ToggleThemeBtn = ({ className }: { className: string }) => {
+const ToggleThemeBtn = ({ className }: { className?: string }) => {
   const { toggleTheme, isDark } = useTheme();
 
   return (

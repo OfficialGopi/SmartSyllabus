@@ -2,9 +2,10 @@ import { AsyncHandler } from "../utils/async-handler.util";
 import { ApiResponse, ApiError } from "../utils/response-handler.util";
 import { TransactionModel } from "../models/transaction.model";
 import { addCredits } from "../services/credit.service";
+import { IUser } from "../types/schemas.type";
 
 export const addTransaction = AsyncHandler(async (req, res) => {
-  const user = req.user!;
+  const user = req.user! as IUser;
   const { amount, creditsAdded, paymentProvider } = req.body as {
     amount: number;
     creditsAdded: number;
@@ -23,7 +24,7 @@ export const addTransaction = AsyncHandler(async (req, res) => {
 });
 
 export const getTransactions = AsyncHandler(async (req, res) => {
-  const user = req.user!;
+  const user = req.user! as IUser;
   const txs = await TransactionModel.find({ userId: user._id })
     .sort({ createdAt: -1 })
     .lean();

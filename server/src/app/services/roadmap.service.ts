@@ -30,6 +30,12 @@ export async function generateRoadmap(
   return roadmap;
 }
 
+export async function getAllRoadmaps(userId: string) {
+  return RoadmapModel.find({ userId: new mongoose.Types.ObjectId(userId) })
+    .sort({ createdAt: -1 })
+    .populate("conversation", "title");
+}
+
 export async function getRoadmap(roadmapId: string) {
   return RoadmapModel.findById(roadmapId);
 }

@@ -17,7 +17,7 @@ function parseEnv(env: NodeJS.ProcessEnv) {
     GOOGLE_CALLBACK_URL: z.string(),
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
-    AI_API_KEY: z.string(),
+    GOOGLE_AI_API_KEY: z.string(),
   });
   const parsedEnv = envSchema.safeParse(env);
 

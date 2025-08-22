@@ -1,99 +1,294 @@
-## SmartSyllabus (MERN + OpenAI)
+# SmartSyllabus - AI-Powered Study Assistant
 
-A study assistant where students upload syllabus and exam details. The AI generates a personalized roadmap with daily goals, curated resources, and tracks progress. Uses RAG on syllabus chunks stored with embeddings.
+A comprehensive study assistant where students upload syllabus and exam details. The AI generates personalized study roadmaps with daily goals, curated resources, and tracks progress. Uses RAG (Retrieval-Augmented Generation) on syllabus chunks stored with embeddings.
 
-### Tech Stack
+## 🚀 Features
 
-- Backend: Node.js, Express.js, TypeScript
-- Database: MongoDB + Mongoose
-- AI: OpenAI API (chat + embeddings)
-- Auth: Google OAuth (Passport.js)
+- **AI-Powered Study Planning**: Generate personalized study roadmaps using Google's AI
+- **Syllabus Management**: Upload and manage syllabus content (text or PDF)
+- **Progress Tracking**: Track daily study progress with visual indicators
+- **Credit System**: Manage AI usage with a credit-based system
+- **Modern UI**: Beautiful, responsive interface built with React and Tailwind CSS
+- **State Management**: Robust state management with Zustand
+- **Real-time Updates**: Live updates for all study activities
 
-### Monorepo Structure
+## 🛠️ Tech Stack
 
-- `client/` Vite + React
-- `server/` Express + Mongoose
+### Frontend
 
-### Server: Setup
+- **React 19** with TypeScript
+- **Vite** for fast development and building
+- **Tailwind CSS** for styling
+- **Zustand** for state management
+- **Axios** for API communication
+- **React Router** for navigation
+- **Lucide React** for icons
 
-1. Create `.env` in `server/`:
+### Backend
+
+- **Node.js** with Express.js
+- **TypeScript** for type safety
+- **MongoDB** with Mongoose
+- **Google AI API** (OpenAI SDK compatible)
+- **Passport.js** for Google OAuth authentication
+- **Rate Limiting** for AI endpoints
+- **JWT** for secure authentication
+
+## 📁 Project Structure
 
 ```
+smartsyllabus/
+├── client/                 # Frontend React application
+│   ├── src/
+│   │   ├── app/           # Page components
+│   │   ├── components/    # Reusable UI components
+│   │   ├── store/         # Zustand state management
+│   │   ├── services/      # API services
+│   │   └── router/        # Routing configuration
+│   └── package.json
+├── server/                 # Backend Express application
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── controllers/  # Route handlers
+│   │   │   ├── services/     # Business logic
+│   │   │   ├── models/       # Database models
+│   │   │   ├── routes/       # API routes
+│   │   │   └── libs/         # External integrations
+│   │   └── env.ts
+│   └── package.json
+└── README.md
+```
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- MongoDB database
+- Google AI API key
+- Google OAuth credentials
+
+### 1. Backend Setup
+
+```bash
+cd server
+
+# Install dependencies
+npm install
+
+# Create .env file
+cp env.template .env
+```
+
+**📋 Important**: See [SETUP.md](./SETUP.md) for detailed environment configuration instructions.
+
+Configure your `.env` file:
+
+```env
 PORT=3000
 NODE_ENV=development
 DATABASE_URI=mongodb+srv://<user>:<pass>@<cluster>/<db>?retryWrites=true&w=majority
 CLIENT_URL=http://localhost:5173
-ACCESS_TOKEN_SECRET=replace_me
-REFRESH_TOKEN_SECRET=replace_me
+ACCESS_TOKEN_SECRET=your_access_token_secret
+REFRESH_TOKEN_SECRET=your_refresh_token_secret
 ACCESS_TOKEN_EXPIRY=15m
 REFRESH_TOKEN_EXPIRY=7d
-GOOGLE_CALLBACK_URL=http://localhost:3000/api/user/google/callback
-GOOGLE_CLIENT_ID=replace_me
-GOOGLE_CLIENT_SECRET=replace_me
-OPENAI_API_KEY=replace_me
+GOOGLE_CALLBACK_URL=http://localhost:3000/api/v1/user/google/callback
+GOOGLE_CLIENT_ID=your_google_oauth_client_id
+GOOGLE_CLIENT_SECRET=your_google_oauth_client_secret
+GOOGLE_AI_API_KEY=your_google_ai_api_key
 ```
 
-2. Install and run:
+Start the backend:
 
-```
-cd server
-npm install
+```bash
+# Development mode
+npm run dev
+
+# Production build
 npm run build && npm start
-# or during development
+```
+
+### 2. Frontend Setup
+
+```bash
+cd client
+
+# Install dependencies
+npm install
+
+# Create .env file
+cp env.template .env
+```
+
+Configure your `.env` file:
+
+```env
+VITE_SERVER_URL=http://localhost:3000/api/v1
+```
+
+Start the frontend:
+
+```bash
 npm run dev
 ```
 
-### API Overview
+The frontend will be available at `http://localhost:5173`
 
-All routes are prefixed from `server/src/app/index.ts`:
+## 🔐 Authentication
 
-- `GET /api/user/me` (auth required)
-- `GET /api/user/google` → OAuth start
-- `GET /api/user/google/callback` → OAuth callback
-- `DELETE /api/user/logout`
+SmartSyllabus uses Google OAuth for authentication:
 
-#### Chat
+1. Users click "Login with Google"
+2. Redirected to Google OAuth
+3. After successful authentication, redirected back to dashboard
+4. JWT tokens are stored securely in cookies
 
-- `POST /api/chat` → create chat: `{ title, syllabusType, syllabusText?, syllabusPdfLink? }`
-- `GET /api/chat` → list chats for current user
-- `POST /api/chat/:chatId/messages` → append message `{ role, content }`
+## 💰 Credit System
 
-#### Syllabus
+- New users start with **10 credits**
+- Each roadmap generation costs **1 credit**
+- Credits can be purchased through the transaction system
+- Rate limiting prevents abuse of AI endpoints
 
-- `POST /api/syllabus/:chatId` → upload syllabus chunks `{ chunks: string[] }` (embeds each chunk)
-- `GET /api/syllabus/:chatId` → list chunks for chat
+## 🤖 AI Integration
 
-#### Roadmap
+### Google AI Setup
 
-- `POST /api/roadmap/:chatId` → generate roadmap `{ query }` (deducts 1 credit)
-- `GET /api/roadmap/:roadmapId` → fetch roadmap
+1. Get your API key from [Google AI Studio](https://aistudio.google.com/)
+2. Configure the `GOOGLE_AI_API_KEY` in your environment
+3. The system uses OpenAI SDK compatible endpoints
 
-#### Progress
+### Rate Limiting
 
-- `POST /api/progress/:roadmapId/:day` → mark a day complete
-- `GET /api/progress/:roadmapId` → get progress entries
+- AI endpoints are rate-limited to **10 requests per 15 minutes**
+- Prevents abuse and ensures fair usage
+- Configurable in `server/src/app/index.ts`
 
-#### Transaction
+## 📊 API Endpoints
 
-- `POST /api/transaction` → add credits after payment `{ amount, creditsAdded, paymentProvider }`
-- `GET /api/transaction` → list transactions for current user
+### Authentication
 
-### Credits
+- `POST /api/v1/user/google` - Start Google OAuth
+- `GET /api/v1/user/google/callback` - OAuth callback
+- `GET /api/v1/user/me` - Get current user info
+- `DELETE /api/v1/user/logout` - Logout user
 
-- Default user credits: 10
-- Cost per roadmap: 1 credit
-- Logic: `server/src/app/services/credit.service.ts`
+### Chats
 
-### RAG Flow
+- `POST /api/v1/chat` - Create new chat
+- `GET /api/v1/chat` - List user's chats
+- `POST /api/v1/chat/:chatId/messages` - Add message to chat
 
-1. Upload syllabus as text chunks → embeddings stored in `syllabuschunks`
-2. During roadmap generation, we embed the query and do vector similarity over chunks
-3. We pass the retrieved context to OpenAI to produce a structured plan
+### Roadmaps
 
-### Dev Notes
+- `POST /api/v1/roadmap/:chatId` - Generate roadmap (costs 1 credit)
+- `GET /api/v1/roadmap` - List user's roadmaps
+- `GET /api/v1/roadmap/:roadmapId` - Get specific roadmap
 
-- Routers under `server/src/app/routes/*` and controllers under `server/src/app/controllers/*`
-- Business logic in `server/src/app/services/*`
-- Models in `server/src/app/models/*`
-- OpenAI helpers in `server/src/app/libs/*`
-- Error responses use `ApiError`/`ApiResponse`
+### Progress
+
+- `POST /api/v1/progress/:roadmapId/:day` - Mark day as complete
+- `GET /api/v1/progress` - List all progress entries
+- `GET /api/v1/progress/:roadmapId` - Get progress for specific roadmap
+
+### Transactions
+
+- `POST /api/v1/transaction` - Add credits after payment
+- `GET /api/v1/transaction` - List user's transactions
+
+## 🎯 Usage Flow
+
+1. **Login**: User authenticates with Google
+2. **Create Chat**: Upload syllabus (text or PDF)
+3. **Generate Roadmap**: AI creates personalized study plan
+4. **Track Progress**: Mark daily goals as complete
+5. **Monitor Credits**: Manage AI usage and purchase more if needed
+
+## 🔧 Development
+
+### Frontend Development
+
+```bash
+cd client
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run lint         # Run ESLint
+npm run preview      # Preview production build
+```
+
+### Backend Development
+
+```bash
+cd server
+npm run dev          # Start with nodemon and TypeScript watch
+npm run build        # Build TypeScript to JavaScript
+npm start            # Start production server
+```
+
+### Database Models
+
+The system includes several key models:
+
+- **User**: Authentication and credit management
+- **Chat**: Syllabus and conversation management
+- **Roadmap**: AI-generated study plans
+- **Progress**: Daily study progress tracking
+- **Transaction**: Credit purchase history
+
+## 🚀 Deployment
+
+### Frontend Deployment
+
+```bash
+cd client
+npm run build
+# Deploy the dist/ folder to your hosting service
+```
+
+### Backend Deployment
+
+```bash
+cd server
+npm run build
+# Deploy the dist/ folder to your hosting service
+```
+
+### Environment Variables
+
+Ensure all environment variables are properly configured in production, especially:
+
+- Database connection strings
+- JWT secrets
+- Google OAuth credentials
+- Google AI API key
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+For support and questions:
+
+- Check the documentation
+- Review the API endpoints
+- Check the console for error messages
+- Ensure all environment variables are set correctly
+
+## 🔮 Future Enhancements
+
+- [ ] PDF text extraction
+- [ ] Advanced progress analytics
+- [ ] Study group features
+- [ ] Mobile app
+- [ ] Integration with learning management systems
+- [ ] Advanced AI models and fine-tuning

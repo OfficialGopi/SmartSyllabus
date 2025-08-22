@@ -41,7 +41,46 @@ interface IConversation extends Document {
   syllabusType: string;
   syllabusText?: string;
   syllabusPdfLink?: string;
+  messages?: Array<{
+    role: "system" | "user" | "assistant";
+    content: string;
+    timestamp: Date;
+  }>;
   createdAt: Date;
   updatedAt: Date;
 }
-export type { IUser, ITransaction, ISyllabusChunk, IConversation };
+interface IRoadmap extends Document {
+  _id: Types.ObjectId;
+  userId: Types.ObjectId;
+  conversation: Types.ObjectId;
+  query: string;
+  syllabusUsed: Types.ObjectId[];
+  roadmapText: string;
+  dailyPlan: Array<{
+    day: number;
+    goal: string;
+    resources: Array<{ type: string; title: string; url: string }>;
+    completed: boolean;
+  }>;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface IProgress extends Document {
+  _id: Types.ObjectId;
+  userId: Types.ObjectId;
+  roadmap: Types.ObjectId;
+  day: number;
+  completed: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export type {
+  IUser,
+  ITransaction,
+  ISyllabusChunk,
+  IConversation,
+  IRoadmap,
+  IProgress,
+};

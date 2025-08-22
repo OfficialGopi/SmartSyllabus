@@ -1,7 +1,7 @@
 import express from "express";
 import { checkLogin } from "../middlewares/auth.middleware";
 import { getMe, login, logout } from "../controllers/user.controller";
-import { passport } from "../lib/passport.lib";
+import { passport } from "../libs/passport.lib";
 import { env } from "../../env";
 const router = express.Router();
 

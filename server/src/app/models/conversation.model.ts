@@ -23,6 +23,21 @@ const conversationSchema = new mongoose.Schema<IConversation>(
     syllabusPdfLink: {
       type: String,
     },
+    messages: [
+      {
+        role: {
+          type: String,
+          enum: ["system", "user", "assistant"],
+        },
+        content: {
+          type: String,
+        },
+        timestamp: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

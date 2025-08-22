@@ -3,7 +3,7 @@ import MainLayoutNavbar from "@/components/shared/MainLayoutNavbar"; // The impr
 
 const MainLayout = () => {
   return (
-    <main className="w-full h-screen flex flex-col  text-neutral-800 dark:text-neutral-100">
+    <main className="w-full h-screen flex flex-col  ">
       {/* Navbar at the top */}
       <MainLayoutNavbar />
 
